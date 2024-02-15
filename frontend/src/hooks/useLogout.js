@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
-
 import toast from "react-hot-toast";
 
 const useLogout = () => {
@@ -30,5 +29,4 @@ const useLogout = () => {
 
   return { loading, logout };
 };
-
 export default useLogout;

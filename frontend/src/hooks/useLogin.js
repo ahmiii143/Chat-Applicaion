@@ -9,9 +9,7 @@ const useLogin = () => {
   const login = async (username, password) => {
     const success = handleInputErrors(username, password);
     if (!success) return;
-
     setLoading(true);
-
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -19,10 +17,11 @@ const useLogin = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await res.json(); // extract the data
+      const data = await res.json();
       if (data.error) {
-        throw new Error(data.message);
+        throw new Error(data.error);
       }
+
       localStorage.setItem("chat-user", JSON.stringify(data));
       setAuthUser(data);
     } catch (error) {
@@ -34,12 +33,11 @@ const useLogin = () => {
 
   return { loading, login };
 };
-
 export default useLogin;
 
 function handleInputErrors(username, password) {
   if (!username || !password) {
-    toast.error("All fields are required");
+    toast.error("Please fill in all fields");
     return false;
   }
 

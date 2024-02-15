@@ -1,14 +1,16 @@
 import User from "../models/user.model.js";
 
-export const getUsersForSideBar = async (req, res) => {
+export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
+
     const filteredUsers = await User.find({
       _id: { $ne: loggedInUserId },
     }).select("-password");
-    return res.status(201).json(filteredUsers);
+
+    res.status(200).json(filteredUsers);
   } catch (error) {
-    console.log(error.message, "Error in user controller Server Error");
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error in getUsersForSidebar: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
